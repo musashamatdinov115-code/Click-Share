@@ -1,9 +1,10 @@
-import React from 'react'
+import Header from "@/widgets/header/Header"
+import MainLayouts from "./layouts/MainLayouts"
 
 function App() {
   return (
     <div>
-      app
+      <MainLayouts/>
     </div>
   )
 }

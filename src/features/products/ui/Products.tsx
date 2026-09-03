@@ -1,8 +1,8 @@
 import { useGetCategoryApiByNameQuery, useGetProductApiByNameQuery } from "@/api/api"
 import StarRating from "@/features/starRating/RatingStar";
 import { Button } from "@/shared/ui/button";
-import { Card } from "@/shared/ui/card";
 import { Heart } from "lucide-react";
+import { Card } from "@/shared/ui/card";
 interface ProductsProps {
   selectedCategory: string | null;
 }
@@ -11,9 +11,7 @@ function Products({ selectedCategory }: ProductsProps) {
     const { data: products } = useGetProductApiByNameQuery()
     const { data: categories } = useGetCategoryApiByNameQuery()
 
-    const filteredProducts = selectedCategory
-    ? products?.filter((item) => item.categoryId.toString() === selectedCategory)
-    : products;
+    const filteredProducts = selectedCategory ? products?.filter((item) => item.categoryId.toString() === selectedCategory) : products;
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2  w-[95%] mx-auto max-w-[1400px]">

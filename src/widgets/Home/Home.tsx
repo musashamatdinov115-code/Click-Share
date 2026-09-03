@@ -36,10 +36,8 @@ function Home() {
           </motion.button>
         </div>
         <div className="w-[250px] h-[250px] left-[10%] top-[20%] bg-purple-500 bg-opacity-30 rounded-full blur-[200px] absolute">
-
         </div>
         <div className="w-[300px] h-[300px] top-[50%] right-[10%] bg-indigo-500 bg-opacity-30 rounded-full blur-[200px] absolute">
-
         </div>
       </div>
       )}

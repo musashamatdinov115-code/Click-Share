@@ -1,11 +1,12 @@
 import { Card } from "@/shared/ui/card";
 import { Link } from "react-router";
-import { Search } from "lucide-react";
+import { CircleUserRound, Heart, Search, ShoppingCart } from "lucide-react";
+import { Button } from "@/shared/ui/button";
 
 function Header() {
   return (
-    <div className="p-2">
-      <Card className="rounded-sm flex justify-between p-1">
+    <div>
+      <Card className="rounded-sm flex justify-between p-[13px] border-1 border-gray-200">
         <div className="flex justify-between items-center">
           <div>
             <Link to={"/"}>
@@ -25,8 +26,28 @@ function Header() {
                   placeholder="Search"
                 />
                 <div className="absolute top-[2px] right-[2px] bottom-[2px] rounded-full hover:bg-indigo-50 active:scale-95 cursor-pointer w-[30px] flex justify-center items-center">
-                  <Search size={15}/>
+                  <Search size={15} />
                 </div>
+              </div>
+            </div>
+
+            <Link to={"/basket"} className="flex cursor-pointer group text-[22px] relative justify-center items-center gap-[5px]">
+              <Heart size={22} />
+              <span className="text-[12px] absolute top-[-10px] pt-[2px] right-[-10px] font-semibold flex justify-center items-center w-[20px] h-[20px] bg-indigo-600 rounded-full text-white">0</span>
+            </Link>
+            <Link to={"/favourite"} className="flex cursor-pointer group text-[22px] relative justify-center items-center gap-[5px]">
+              <div className="flex text-[22px] relative justify-center items-center gap-[5px]">
+                <ShoppingCart size={22} />
+                <span className="text-[12px] absolute top-[-10px] pt-[2px] right-[-10px] font-semibold flex justify-center items-center w-[20px] h-[20px] bg-indigo-600 rounded-full text-white">0</span>
+              </div>
+              <span className="text-[14px] font-semibold group-hover:text-indigo-600">$0.00</span>
+            </Link>
+
+            <div>
+              <div className=" flex justify-center items-center gap-1">
+                <Button className='cursor-pointer flex flex-col items-center justify-center bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-bold py-4.5 px-6 rounded-full hover:from-indigo-500 hover:to-blue-700 transition-all duration-300 shadow-md'>
+                    <span className="text-[16px] font-medium">Login</span>
+                </Button>
               </div>
             </div>
           </div>

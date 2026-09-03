@@ -128,3 +128,34 @@
     @apply font-sans;
     }
 }
+
+
+
+@keyframes bounce-x {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+}
+
+.animate-bounce-x {
+  animation: bounce-x 1s linear infinite;
+}
+
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.categories-container > div {
+  animation: slideFromRight 0.4s ease-out forwards;
+}

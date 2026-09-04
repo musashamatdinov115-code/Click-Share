@@ -1,6 +1,6 @@
 import { Card } from "@/shared/ui/card";
 import { Link } from "react-router";
-import { CircleUserRound, Heart, Search, ShoppingCart } from "lucide-react";
+import { Heart, Search, ShoppingCart } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 
 function Header() {
@@ -46,8 +46,10 @@ function Header() {
             <div>
               <div className=" flex justify-center items-center gap-1">
                 <Button className='cursor-pointer flex flex-col items-center justify-center bg-gradient-to-r from-blue-700 to-indigo-500 text-white font-bold py-4.5 px-6 rounded-full hover:from-indigo-500 hover:to-blue-700 transition-all duration-300 shadow-md'>
-                    <span className="text-[16px] font-medium">Login</span>
+                  <span className="text-[16px] font-medium">Login</span>
+
                 </Button>
+                
               </div>
             </div>
           </div>

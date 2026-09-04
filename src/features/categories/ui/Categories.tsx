@@ -42,7 +42,7 @@ function Categories({ selectedCategory, onSelectCategory }: CategoriesProps) {
           </div>
         );
       })}
-      <button className="cursor-pointer hover:text-indigo-600 hover:scale-110 active:scale-95 p-2 bg-white min-w-max">
+      <button className="cursor-pointer hover:text-indigo-600  active:  bg-white min-w-max">
         <ChevronRight size={20} />
       </button>
     </div>

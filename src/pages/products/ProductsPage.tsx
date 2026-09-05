@@ -1,4 +1,4 @@
-import ProductsCart from "@/widgets/products/ui/ProductsCart"
+import ProductsCart from "@/entities/products/ui/ProductsCart"
 
 function ProductsPage() {
   return (

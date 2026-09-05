@@ -1,5 +1,6 @@
+import type { CategoryType } from "@/entities/categories/model/type"
+import type { ProductsType } from "@/entities/products/model/type"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import type { CategoryType, ProductsType } from "./type"
 
 export const getApi = createApi({
     reducerPath: "api",
@@ -13,8 +14,14 @@ export const getApi = createApi({
         getCategoryApiByName: build.query<CategoryType[], void>({
             query: () => "/categories/get"
         }),
+        getCategoryIdApiByName: build.query<CategoryType[], void>({
+            query: (id) => `/categories/get-one/${id}`
+        }),
+        getProductsIdApiByName: build.query<ProductsType[], void>({
+            query:(id) => `/products/get-one/${id}`
+        }),
        
     })
 })
 
-export const { useGetProductApiByNameQuery, useGetCategoryApiByNameQuery } = getApi
+export const { useGetProductApiByNameQuery, useGetCategoryApiByNameQuery, useLazyGetCategoryIdApiByNameQuery, useLazyGetProductsIdApiByNameQuery } = getApi

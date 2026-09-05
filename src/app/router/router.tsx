@@ -4,6 +4,7 @@ import ProductsPage from "@/pages/products/ProductsPage";
 import FavouritePage from "@/pages/favorites/FavouritePage";
 import BasketPage from "@/pages/cart/BasketPage";
 import MainLayout from "../layouts/MainLayout";
+import ProfilePage from "@/pages/profile/ProfilePage";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path : "/basket",
                 element: <BasketPage/>
+            },
+            {
+                path : "/profile",
+                element: <ProfilePage/>
             },
         ]
     }

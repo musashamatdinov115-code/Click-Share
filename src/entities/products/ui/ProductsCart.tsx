@@ -1,8 +1,8 @@
-import Categories from "@/features/categories/ui/Categories";
 import CustomLoader from "@/features/customLoader/CustomLoader";
 import Products from "@/features/products/ui/Products";
 import { useEffect, useState } from "react";
 import {  motion } from "framer-motion"
+import Categories from "@/entities/categories/ui/Categories";
 
 function ProductsCart() {
   const [isLoading, setIsLoading] = useState(true);

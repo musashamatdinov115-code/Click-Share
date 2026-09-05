@@ -4,7 +4,7 @@ import { Button } from "@/shared/ui/button";
 import { Heart } from "lucide-react";
 import { Card } from "@/shared/ui/card";
 interface ProductsProps {
-  selectedCategory: string | null;
+    selectedCategory: string | null;
 }
 
 function Products({ selectedCategory }: ProductsProps) {
@@ -20,8 +20,10 @@ function Products({ selectedCategory }: ProductsProps) {
                 const oldPrice = Math.round(item.price * 1.111);
 
                 return (
-                    <Card className="cursor-pointer gap-0 p-0 hover:border-indigo-100 h-full duration-100 flex flex-col rounded-md overflow-hidden shadow-sm bg-white relative text-gray-700">
-                        <Button size={"icon-lg"} className={"rounded-full cursor-pointer bg-black/20 duration-150 text-white hover:scale-105 border-[1px] border-gray-200  hover:bg-opacity-15 absolute top-[7px] right-[7px] active:scale-100"}><Heart /></Button>
+                    <Card key={item.id} className="cursor-pointer gap-0 p-0 hover:border-indigo-100 h-full duration-100 flex flex-col rounded-md overflow-hidden shadow-sm bg-white relative text-gray-700">
+                        <Button size={"icon-lg"} className={"rounded-full cursor-pointer bg-black/20 duration-150 text-white hover:scale-105 border-[1px] border-gray-200  hover:bg-opacity-15 absolute top-[7px] right-[7px] active:scale-100"}>
+                            <Heart />
+                        </Button>
                         <div className="absolute text-[12px] font-medium bg-black/40 shadow-sm  backdrop-blur-[1px] text-white top-[10px] left-[10px] py-[2px] px-[5px] rounded-xs">
                             {currentcategory?.name || "Category"}
                         </div>
@@ -60,7 +62,7 @@ function Products({ selectedCategory }: ProductsProps) {
                                 </div>
                                 <div className="relative active:scale-98 duration-100">
                                     <Button className="cursor-pointer w-[38px] h-[38px] flex justify-center items-center rounded-lg text-[20px] shadow-sm bg-gradient-to-r from-blue-600 to-indigo-500 hover:bg-gradient-to-r hover:from-blue-500 hover:to-indigo-600 text-white active:shadow-none active:bg-gradient-to-r active:from-blue-600 active:to-indigo-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-shopping-cart-plus-icon lucide-shopping-cart-plus"><path d="M16 5h6"/><path d="M19 2v6"/><path d="m2.05 2.05 1.099-.028a1 1 0 011.008.815l2.69 14.347A1 1 0 007.83 18H18"/><path d="M4.564 5H12"/><path d="M6.25 14h12.712a2 2 0 001.991-1.57l.172-1.041"/><circle cx="18" cy="20" r="2"/><circle cx="8" cy="20" r="2"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart-plus-icon lucide-shopping-cart-plus "><path d="M16 5h6" /><path d="M19 2v6" /><path d="m2.05 2.05 1.099-.028a1 1 0 011.008.815l2.69 14.347A1 1 0 007.83 18H18" /><path d="M4.564 5H12" /><path d="M6.25 14h12.712a2 2 0 001.991-1.57l.172-1.041" /><circle cx="18" cy="20" r="2" /><circle cx="8" cy="20" r="2" /></svg>
                                     </Button>
                                 </div>
                             </div>

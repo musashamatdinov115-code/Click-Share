@@ -4,12 +4,13 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToLogin: () => void;
-  onSuccess: () => void; // Header-di jańalaw ushın
+  onSuccess: () => void;
 }
 
 export function RegisterModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: RegisterModalProps) {
@@ -20,35 +21,44 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: R
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Mock user obyekti hám token jaratamız
+
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters", { autoClose: 3000 });
+      return;
+    }
+
+    // Qollanıwshı maǵlıwmatların localStorage-qa saqlaymız
     const newUser = { name, email, password };
     localStorage.setItem("user", JSON.stringify(newUser));
-    localStorage.setItem("token", "mock-jwt-token-12345"); // Jasama token
+    
+    // DİQQAT: Register bolǵanda token-di DEREW SAQLAMAYMIZ! 
+    // Sebebi qollanıwshı házir Register qıldı, endi Login etiwı kerek.
+    // Eger token-di dárwis saqlap qoysańız, header "Logout" bolıp qaladı.
 
-    onSuccess();
+    toast.success("Account created successfully! Please login.", { autoClose: 3000 });
     onClose();
+    onSwitchToLogin(); // Register-den keyin avtomat Login modalına ótedi
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[450px] p-6 bg-white rounded-xl shadow-lg border-none">
+      <DialogContent className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-[450px] translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white p-6 shadow-lg duration-200 sm:rounded-xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Create account</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleRegister} className="space-y-4">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label>Your name</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} required className="bg-gray-50" />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label>Email</Label>
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-gray-50" />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label>Password</Label>
             <div className="relative">
               <Input
@@ -64,7 +74,7 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: R
             </div>
           </div>
 
-          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5">
             Create account
           </Button>
 

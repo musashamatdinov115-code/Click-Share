@@ -1,4 +1,4 @@
-import FavouriteCart from "@/widgets/favourites/ui/FavouriteCart"
+import { FavouriteCart } from "@/widgets/favourites/ui/FavouriteCart"
 
 function FavouritePage() {
   return (

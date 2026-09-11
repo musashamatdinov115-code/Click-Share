@@ -35,6 +35,24 @@ function Header() {
   useEffect(() => {
     checkAuth();
   }, []);
+  const [favCount, setFavCount] = useState(0);
+
+  const updateFavCount = () => {
+    const items = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setFavCount(items.length);
+  };
+
+  useEffect(() => {
+    updateFavCount();
+
+    window.addEventListener("favorites_changed", updateFavCount);
+    window.addEventListener("storage", updateFavCount); 
+
+    return () => {
+      window.removeEventListener("favorites_changed", updateFavCount);
+      window.removeEventListener("storage", updateFavCount);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -68,11 +86,11 @@ function Header() {
               </div>
             </div>
 
-            <Link to={"/basket"} className="flex cursor-pointer group text-[22px] relative justify-center items-center gap-[5px]">
-              <Heart size={22} />
-              <span className="text-[12px] absolute top-[-10px] pt-[2px] right-[-10px] font-semibold flex justify-center items-center w-[20px] h-[20px] bg-indigo-600 rounded-full text-white">0</span>
-            </Link>
             <Link to={"/favourite"} className="flex cursor-pointer group text-[22px] relative justify-center items-center gap-[5px]">
+              <Heart size={22} />
+              <span className="text-[12px] absolute top-[-10px] pt-[2px] right-[-10px] font-semibold flex justify-center items-center w-[20px] h-[20px] bg-indigo-600 rounded-full text-white">{favCount}</span>
+            </Link>
+            <Link to={"/basket"} className="flex cursor-pointer group text-[22px] relative justify-center items-center gap-[5px]">
               <div className="flex text-[22px] relative justify-center items-center gap-[5px]">
                 <ShoppingCart size={22} />
                 <span className="text-[12px] absolute top-[-10px] pt-[2px] right-[-10px] font-semibold flex justify-center items-center w-[20px] h-[20px] bg-indigo-600 rounded-full text-white">0</span>
@@ -93,12 +111,12 @@ function Header() {
 
                     <DropdownMenuContent align="end" className="w-48 bg-white p-2 shadow-lg rounded-sm border">
 
-                      <DropdownMenuItem>
-                        <Link to="/profile" className="flex items-center gap-2  text-gray-700 font-medium hover:bg-gray-100 rounded-md cursor-pointer">
+                      <Link to="/profile" >
+                        <DropdownMenuItem className={"flex items-center gap-2  text-gray-700 font-medium hover:bg-gray-100 rounded-md cursor-pointer"}>
                           <User size={16} className="text-gray-500" />
                           <span className="capitalize text-sm">{userName}</span>
-                        </Link>
-                      </DropdownMenuItem>
+                        </DropdownMenuItem>
+                      </Link>
 
                       <DropdownMenuSeparator className="my-1 border-t border-gray-100" />
 

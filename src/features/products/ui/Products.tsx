@@ -2,7 +2,10 @@ import { useGetCategoryApiByNameQuery, useGetProductApiByNameQuery } from "@/api
 import StarRating from "@/features/starRating/RatingStar";
 import { Button } from "@/shared/ui/button";
 import { Heart } from "lucide-react";
-import { Card } from "@/shared/ui/card";
+import { motion } from "framer-motion"
+import { useFavorites } from "@/features/favorites/useFavourites";
+import { useEffect, useState } from "react";
+import type { ProductsType } from "@/entities/products/model/type";
 interface ProductsProps {
     selectedCategory: string | null;
 }
@@ -10,7 +13,24 @@ interface ProductsProps {
 function Products({ selectedCategory }: ProductsProps) {
     const { data: products } = useGetProductApiByNameQuery()
     const { data: categories } = useGetCategoryApiByNameQuery()
-
+    const { handleLikeProduct } = useFavorites();
+    const [favoritesMap, setFavoritesMap] = useState<Record<string | number, boolean>>({});
+    useEffect(() => {
+        const existingFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        const map: Record<string | number, boolean> = {};
+        existingFavorites.forEach((item: ProductsType) => {
+            const id = item.id
+            if (id) map[id] = true;
+        });
+        setFavoritesMap(map);
+    }, [products]);
+    const onLikeClick = async (product: any) => {
+        await handleLikeProduct(product);
+        setFavoritesMap((prev) => ({
+            ...prev,
+            [product.id]: !prev[product.id],
+        }));
+    };
     const filteredProducts = selectedCategory ? products?.filter((item) => item.categoryId.toString() === selectedCategory) : products;
 
     return (
@@ -18,11 +38,12 @@ function Products({ selectedCategory }: ProductsProps) {
             {filteredProducts?.map((item) => {
                 const currentcategory = categories?.find((cat) => cat.id === item.categoryId)
                 const oldPrice = Math.round(item.price * 1.111);
+                const isLiked = favoritesMap[item.id] || false;
 
                 return (
-                    <Card key={item.id} className="cursor-pointer gap-0 p-0 hover:border-indigo-100 h-full duration-100 flex flex-col rounded-md overflow-hidden shadow-sm bg-white relative text-gray-700">
-                        <Button size={"icon-lg"} className={"rounded-full cursor-pointer bg-black/20 duration-150 text-white hover:scale-105 border-[1px] border-gray-200  hover:bg-opacity-15 absolute top-[7px] right-[7px] active:scale-100"}>
-                            <Heart />
+                    <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 0, scale: 1 }} transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }} whileInView={{ opacity: 1, y: 0, }} key={item.id} className="border-1 cursor-pointer gap-0 p-0 hover:border-indigo-100 h-full duration-100 flex flex-col rounded-md overflow-hidden shadow-sm bg-white relative text-gray-700">
+                        <Button onClick={() => onLikeClick(item)} size={"icon-lg"} className={`rounded-full  cursor-pointer bg-black/20 duration-150 text-white hover:scale-105  hover:bg-opacity-15 absolute top-[7px] right-[7px] active:scale-100 ${favoritesMap[item.id] ? "border-red-500" : "border-[1px] border-gray-200"}`}>
+                            <Heart className={favoritesMap[item.id] ? "fill-red-500 text-red-500" : "text-white"} />
                         </Button>
                         <div className="absolute text-[12px] font-medium bg-black/40 shadow-sm  backdrop-blur-[1px] text-white top-[10px] left-[10px] py-[2px] px-[5px] rounded-xs">
                             {currentcategory?.name || "Category"}
@@ -67,7 +88,7 @@ function Products({ selectedCategory }: ProductsProps) {
                                 </div>
                             </div>
                         </div>
-                    </Card>
+                    </motion.div>
                 )
             })}
         </div>

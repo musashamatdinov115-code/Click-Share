@@ -3,7 +3,6 @@ import Products from "@/features/products/ui/Products";
 import { useEffect, useState } from "react";
 import {  motion } from "framer-motion"
 import Categories from "@/entities/categories/ui/Categories";
-import type { ProductsType } from "../model/type";
 
 function ProductsCart() {
   

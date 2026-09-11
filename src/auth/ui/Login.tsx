@@ -40,7 +40,6 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
 
     if (!isValid) return;
 
-    // 1. localStorage-tan aldın saqlanǵan qollanıwshını oqıp alamız
     const savedUserStr = localStorage.getItem("user");
 
     if (!savedUserStr) {
@@ -50,7 +49,6 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
 
     const savedUser = JSON.parse(savedUserStr);
 
-    // 2. Email menen paroldı duris tekseremiz
     if (savedUser.email !== email) {
       toast.error("Invalid email address!", { autoClose: 3000 });
       return;
@@ -61,7 +59,6 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
       return;
     }
 
-    // 3. Bári duris bolsa ǵana token berip, kirgizemiz
     localStorage.setItem("token", "mock-jwt-token-12345");
     toast.success("Login successful!", { autoClose: 2000 });
     onSuccess();

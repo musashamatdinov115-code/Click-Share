@@ -5,6 +5,7 @@ import FavouritePage from "@/pages/favorites/FavouritePage";
 import BasketPage from "@/pages/cart/BasketPage";
 import MainLayout from "../layouts/MainLayout";
 import ProfilePage from "@/pages/profile/ProfilePage";
+import OneProductPage from "@/pages/productDetailPage/OneProductPage";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path : "/profile",
                 element: <ProfilePage/>
+            },
+            {
+                path : "/products/:id",
+                element: <OneProductPage/>
             },
         ]
     }

@@ -13,7 +13,7 @@ interface RegisterModalProps {
   onSuccess: () => void;
 }
 
-export function RegisterModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: RegisterModalProps) {
+export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,17 +27,12 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: R
       return;
     }
 
-    // Qollanıwshı maǵlıwmatların localStorage-qa saqlaymız
     const newUser = { name, email, password };
     localStorage.setItem("user", JSON.stringify(newUser));
     
-    // DİQQAT: Register bolǵanda token-di DEREW SAQLAMAYMIZ! 
-    // Sebebi qollanıwshı házir Register qıldı, endi Login etiwı kerek.
-    // Eger token-di dárwis saqlap qoysańız, header "Logout" bolıp qaladı.
-
     toast.success("Account created successfully! Please login.", { autoClose: 3000 });
     onClose();
-    onSwitchToLogin(); // Register-den keyin avtomat Login modalına ótedi
+    onSwitchToLogin(); 
   };
 
   return (

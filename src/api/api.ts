@@ -17,11 +17,11 @@ export const getApi = createApi({
         getCategoryIdApiByName: build.query<CategoryType[], void>({
             query: (id) => `/categories/get-one/${id}`
         }),
-        getProductsIdApiByName: build.query<ProductsType[], void>({
+        getProductsIdApiByName: build.query<ProductsType, string>({
             query:(id) => `/products/get-one/${id}`
         }),
        
     })
 })
 
-export const { useGetProductApiByNameQuery, useGetCategoryApiByNameQuery, useLazyGetCategoryIdApiByNameQuery, useLazyGetProductsIdApiByNameQuery } = getApi
+export const { useGetProductApiByNameQuery, useGetCategoryApiByNameQuery, useLazyGetProductsIdApiByNameQuery, useGetProductsIdApiByNameQuery } = getApi

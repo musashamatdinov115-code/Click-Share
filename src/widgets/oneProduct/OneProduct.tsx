@@ -4,36 +4,29 @@ import InnerImageZoom from 'react-inner-image-zoom'
 import { Button } from "@/shared/ui/button";
 import { ArrowLeft, Heart } from "lucide-react";
 import { useFavorites } from "@/features/favorites/useFavourites";
-import { useState } from "react";
 import StarRating from "@/features/starRating/RatingStar";
 import { useBasket } from "@/features/cart/useBasket";
+import {motion} from "framer-motion"
 export default function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
 
     const { addToBasket, getProductQuantity } = useBasket();
 
-    const { data: product } = useGetProductsIdApiByNameQuery(id || "");
-    const { handleLikeProduct } = useFavorites();
-    const [favoritesMap, setFavoritesMap] = useState<Record<string | number, boolean>>({});
-
+    const { data: product, isError, isLoading } = useGetProductsIdApiByNameQuery(id || "");
+    const { handleLikeProduct, isFavorite } = useFavorites()
     const { data: categories } = useGetCategoryApiByNameQuery()
     const currentcategory = categories?.find((cat) => cat.id === product?.categoryId)
-    const onLikeClick = async (product: any) => {
-        await handleLikeProduct(product);
-        setFavoritesMap((prev) => ({
-            ...prev,
-            [product.id]: !prev[product.id],
-        }));
-    };
+    
 
     const quantity = getProductQuantity(product ? product.id : 0)
-
-
-    if (!product) return <div>Product not found</div>;
+    if (!product) return
+    if (isError) return <div>Product not found</div>
+    if (isLoading) return
+const liked = isFavorite(product)
 
     return (
         <div className="p-[10px] text-gray-800 w-full lg:w-[95%] mx-auto max-w-[1400px]">
-            <div className="flex flex-col md:flex-row gap-[10px]">
+            <motion.div key={product.id} initial={{ opacity: 0, y: 100 }} animate={{ opacity: 0, scale: 1 }} transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }} whileInView={{ opacity: 1, y: 0, }} className="flex flex-col md:flex-row gap-[10px]">
                 <div className="flex-1 relative ">
                     <div className="w-full h-full  border-[1px] rounded-sm p-[5px] shadow-sm overflow-hidden">
                         <figure>
@@ -59,8 +52,8 @@ export default function ProductDetailPage() {
                                     </div>
                                 </Button>
                             </Link>
-                            <Button onClick={() => onLikeClick(product)} size={"icon-lg"} className={`rounded-none cursor-pointer bg-white/20 duration-150 border-red-500 text-white hover:bg-red-500/15 `}>
-                                <Heart className={`text-red-500 ${favoritesMap[product.id] ? "fill-red-500" : "text-red-500"} `} />
+                            <Button onClick={() => handleLikeProduct(product)} size={"icon-lg"} className={`rounded-none cursor-pointer bg-white/20 duration-150 border-red-500 text-white hover:bg-red-500/15 `}>
+                                <Heart className={`text-red-500 ${liked ? "fill-red-500" : "text-red-500"} `} />
                             </Button>
                         </div>
                         <hr className="my-[7px]" />
@@ -83,7 +76,7 @@ export default function ProductDetailPage() {
                                 <span className="font-semibold text-[18px] text-indigo-700">$ {product.price.toLocaleString()}</span>
                             </div>
                             <div className="flex gap-1 items-center">
-                                <span className="font-medium text-lg">{product.rate}</span>
+                                <span className="font-medium text-lg">{product?.rate}</span>
                                 <span className="text-lg text-orange-500 ">{<StarRating rating={product.rate} />}</span>
                             </div>
                         </div>
@@ -101,8 +94,8 @@ export default function ProductDetailPage() {
                             </Button>
                         </Link>
                         <div className="flex justify-end gap-[10px] flex-1">
-                            <Button onClick={() => onLikeClick(product)} size={"icon-lg"} className={`w-[35px] h-[35px] flex md:hidden justify-center items-center border-[1px] border-red-400 active:scale-95 text-red-500 font-medium rounded-none`}>
-                                <Heart className={`text-red-500 ${favoritesMap[product.id] ? "fill-red-500" : "text-red-500"} `} />
+                            <Button onClick={() => handleLikeProduct(product)} size={"icon-lg"} className={`w-[35px] h-[35px] flex md:hidden justify-center items-center border-[1px] border-red-400 active:scale-95 text-red-500 font-medium rounded-none`}>
+                                <Heart className={`text-red-500 ${liked ? "fill-red-500" : "text-red-500"} `} />
                             </Button>
                             <Button onClick={(e) => { e.stopPropagation(), addToBasket(product) }} className={"duration-100 px-[15px] relative py-4.5 flex justify-center items-center gap-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-medium rounded-none"}>
                                 <span>
@@ -120,7 +113,7 @@ export default function ProductDetailPage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import StarRating from "@/features/starRating/RatingStar";
 import { Button } from "@/shared/ui/button";
 import { ArrowLeft, Heart } from "lucide-react";
 import favoritesAnimate from "@/assets/favorites.json"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { motion } from "framer-motion"
 import { useFavorites } from "@/features/favorites/useFavourites";
 import { Lottie } from "lottie-react";
@@ -13,7 +13,7 @@ export function FavouriteCart() {
   const { data: categories } = useGetCategoryApiByNameQuery();
   const { favorites, handleLikeProduct } = useFavorites();
   const { addToBasket, getProductQuantity } = useBasket();
-
+  const navigate = useNavigate()
   return (
     <div className="w-[95%] mx-auto max-w-[1400px] py-2 min-h-[calc(100vh-200px)]">
       {favorites.length === 0 ? (
@@ -43,7 +43,7 @@ export function FavouriteCart() {
                   <Heart size={20} className="fill-red-500 text-red-500" />
                 </button>
 
-                <div>
+                <div onClick={() => navigate(`/products/${product.id}`)}>
                   <div className="absolute text-[12px] font-medium bg-black/40 shadow-sm backdrop-blur-[1px] text-white top-[10px] left-[10px] py-[2px] px-[5px] rounded-xs">
                     {currentcategory?.name || "Category"}
                   </div>

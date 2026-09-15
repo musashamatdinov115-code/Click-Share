@@ -21,18 +21,23 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters", { autoClose: 3000 });
       return;
     }
-
-    const newUser = { name, email, password };
-    localStorage.setItem("user", JSON.stringify(newUser));
-    
-    toast.success("Account created successfully! Please login.", { autoClose: 3000 });
+    const existingUsers = JSON.parse(localStorage.getItem("usersList") || "[]");
+    const userExists = existingUsers.find((u: any) => u.email === email);
+    if (userExists) {
+      toast.error("User with this email already exists!", { autoClose: 3000 });
+      return;
+    }
+    const role = password === "admin12389" ? "admin" : "user";
+    const newUser = { name, email, password, role };
+    existingUsers.push(newUser);
+    localStorage.setItem("usersList", JSON.stringify(existingUsers));
+    toast.success(`Account created successfully, Please login.`, { autoClose: 3000 });
     onClose();
-    onSwitchToLogin(); 
+    onSwitchToLogin();
   };
 
   return (

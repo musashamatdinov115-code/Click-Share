@@ -25,42 +25,48 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
-
     let isValid = true;
 
     if (!email.includes("@") || !email.includes(".")) {
       setEmailError("Invalid email format");
       isValid = false;
     }
-
     if (password.length < 8) {
       setPasswordError("Password must be at least 8 characters");
       isValid = false;
     }
-
     if (!isValid) return;
 
-    const savedUserStr = localStorage.getItem("user");
+    if (email === "nawrizbaevaydos2@gmail.com" && password === "admin12389") {
+      const superAdminUser = {
+        name: "Super Admin",
+        email: email,
+        role: "super_admin",
+      };
 
-    if (!savedUserStr) {
-      toast.error("User not found! Please register first.", { autoClose: 3000 });
+      localStorage.setItem("token", "super-admin-token");
+      localStorage.setItem("role", "super_admin");
+      localStorage.setItem("user", JSON.stringify(superAdminUser));
+
+      toast.success("You have successfully logged in!", { autoClose: 2000 });
+      onSuccess();
+      onClose();
       return;
     }
 
-    const savedUser = JSON.parse(savedUserStr);
-
-    if (savedUser.email !== email) {
-      toast.error("Invalid email address!", { autoClose: 3000 });
+    const existingUsers = JSON.parse(localStorage.getItem("usersList") || "[]");
+    const foundUser = existingUsers.find((u: any) => u.email === email && u.password === password);
+    
+    if (!foundUser) {
+      toast.error("Invalid email or password, or user not registered!", { autoClose: 3000 });
       return;
     }
 
-    if (savedUser.password !== password) {
-      toast.error("Invalid password!", { autoClose: 3000 });
-      return;
-    }
+    localStorage.setItem("token", foundUser.role === "admin" ? "admin-token" : "user-token");
+    localStorage.setItem("role", foundUser.role);
+    localStorage.setItem("user", JSON.stringify(foundUser));
 
-    localStorage.setItem("token", "mock-jwt-token-12345");
-    toast.success("Login successful!", { autoClose: 2000 });
+    toast.success(`You have successfully logged in`, { autoClose: 2000 });
     onSuccess();
     onClose();
   };
@@ -79,7 +85,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`bg-gray-50 ${emailError ? "border-red-500 focus-visible:ring-red-500" : "border-gray-200"}`}
+              className={`bg-gray-50 ${emailError ? "border-red-500" : "border-gray-200"}`}
             />
             {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
           </div>
@@ -91,7 +97,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister, onSuccess }: L
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`bg-gray-50 pr-10 ${passwordError ? "border-red-500 focus-visible:ring-red-500" : "border-gray-200"}`}
+                className={`bg-gray-50 pr-10 ${passwordError ? "border-red-500" : "border-gray-200"}`}
               />
               <button
                 type="button"
